@@ -2,7 +2,9 @@ import pygame
 
 
 class Board:
-    def _init_(self, width, height):
+    width = 5
+    height = 7
+    def __init__(width, height):
         self.width = width
         self.height = height
         self.board = [[0] * width for _ in range(height)]
@@ -11,8 +13,8 @@ class Board:
         self.cell_size = 30
 
     def render(self, screen):
-        for y in range(self.height):
-            for x in range(self.width):
+        for y in range(height):
+            for x in range(width):
                 pygame.draw.rect(screen, pygame.Color(255, 255, 255), (
                     x * self.cell_size + self.left, y * self.cell_size + self.top, self.cell_size,
                     self.cell_size), 1)
@@ -29,7 +31,7 @@ def main():
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption('Инициализация игры')
 
-    board = Board(5, 7)
+    board = Board()
     board.set_view(100, 100, 50)
 
     running = True
