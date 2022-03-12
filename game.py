@@ -9,7 +9,7 @@ class Game:
         self.board = [[0] * self.width for _ in range(self.height)]
         self.count = [0] * 9
         self.price = [[5, 3, 0, 3, 5, 3, 0, 3, 5], [3, 5, 3, 3, 5, 3, 3, 5, 3], [0, 3, 5, 3, 5, 3, 5, 3, 0], [3, 3, 3, 8, 11, 8, 3, 3, 3], [5, 5, 5, 11, 15, 11, 5, 5, 5], [3, 3, 3, 8, 11, 8, 3, 3, 3], [0, 3, 5, 3, 5, 3, 5, 3, 0],  [3, 5, 3, 3, 5, 3, 3, 5, 3], [5, 3, 0, 3, 5, 3, 0, 3, 5]]
-
+        self.scam = [[0]*30]*8
 
 
     def print_count(self):
@@ -24,12 +24,10 @@ class Game:
 
     def question(self, team, task,  ans, *cell):
         if self.answer[task-1][-1] == ans:
-            if self.answer[task-1][1] >= self.price[cell[0]][cell[1]]:
-                self.count[team-1] += self.price[cell[0]][cell[1]]
-
-
-
-
+            if int(self.answer[task-1][1]) >= self.price[cell[0]][cell[1]]:
+                if self.scam[team-1][task-1] == 0:
+                    self.count[team-1] += self.price[cell[0]][cell[1]]
+                    self.scam[team-1][task-1] = 1
 
 
 if __name__ == "__main__":
