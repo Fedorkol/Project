@@ -23,8 +23,8 @@ class Game:
 
 
     def question(self, team, task,  ans, *cell):
-        if self.answer[task-1][-1] == ans:
-            if int(self.answer[task-1][1]) >= self.price[cell[0]][cell[1]]:
+        if self.answer[task-1][-1] == str(ans):
+            if int(self.answer[task-1][1]) >= self.price[cell[0]-1][cell[1]-1]:
                 if self.scam[team-1][task-1] == 0:
                     self.count[team-1] += self.price[cell[0]][cell[1]]
                     self.scam[team-1][task-1] = 1
@@ -32,4 +32,12 @@ class Game:
 
 if __name__ == "__main__":
     t = Game("ans.txt")
-    t.print_board()
+    print(t.answer)
+    print(t.price)
+    while True:
+        r = input('Введите запрос')
+        if r == '':
+            break
+        t.question(*map(int, r.split()))
+        t.print_board()
+        t.print_count()
