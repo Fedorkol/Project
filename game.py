@@ -35,7 +35,12 @@ class Game:
 
 if __name__ == "__main__":
     t = Game("ans.txt")
-    t.print_board()
+    print(t.answer)
+    print(t.price)
     while True:
-        print('Введите номер команды, номер задачи, ответ и координаты клетки, на которую вы претендуете.')
-        t.question(*list(map(int, input.split())))
+        r = input('Введите запрос')
+        if r == '':
+            break
+        t.question(*map(int, r.split()))
+        t.print_board()
+        t.print_count()
