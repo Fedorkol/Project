@@ -6,15 +6,15 @@ class Game:
                 self.answer.append(list(line.split()))
         self.width = 9
         self.height = 9
-        self.board = [[0] * self.width for _ in range(self.height)]
-        self.board[0][2] = 1
-        self.board[0][6] = 2
-        self.board[2][0] = 8
-        self.board[6][0] = 7
-        self.board[8][2] = 6
-        self.board[8][6] = 5
-        self.board[2][8] = 3
-        self.board[6][8] = 4
+        self.board = [[[[0, 0]]] * self.width for _ in range(self.height)]
+        self.board[0][2] = [[1, 0]]
+        self.board[0][6] = [[2, 0]]
+        self.board[2][0] = [[8, 0]]
+        self.board[6][0] = [[7, 0]]
+        self.board[8][2] = [[6, 0]]
+        self.board[8][6] = [[5, 0]]
+        self.board[2][8] = [[3, 0]]
+        self.board[6][8] = [[4, 0]]
         self.count = [0] * 9
         self.price = [[5, 3, 0, 3, 5, 3, 0, 3, 5], [3, 5, 3, 3, 5, 3, 3, 5, 3], [0, 3, 5, 3, 5, 3, 5, 3, 0], [3, 3, 3, 8, 11, 8, 3, 3, 3], [5, 5, 5, 11, 15, 11, 5, 5, 5], [3, 3, 3, 8, 11, 8, 3, 3, 3], [0, 3, 5, 3, 5, 3, 5, 3, 0],  [3, 5, 3, 3, 5, 3, 3, 5, 3], [5, 3, 0, 3, 5, 3, 0, 3, 5]]
         self.scam = [[0]*30]*8
@@ -37,48 +37,74 @@ class Game:
                 if self.scam[team-1][task-1] == 0:
                     if cell != (0, 2) and cell != (0, 6) and cell != (2, 0) and cell != (6, 0):
                         if cell != (8, 2) and cell != (8, 6) and cell != (2, 8) and cell != (6, 8):
-                            if cell == (0, 0) and (self.board[0][1] == team or self.board[1][0] == team):
-                                #print(1)
+                            if cell == (0, 0) and (self.board[0][1][0][0] == team or self.board[1][0][0][0] == team):
                                 q = True
-                            elif cell == (0, 8) and (self.board[0][7] == team or self.board[1][8] == team):
-                                #print(2)
+                            elif cell == (0, 8) and (self.board[0][7][0][0] == team or self.board[1][8][0][0] == team):
                                 q = True
-                            elif cell == (8, 0) and (self.board[7][0] == team or self.board[8][1] == team):
-                                #print(3)
+                            elif cell == (8, 0) and (self.board[7][0][0][0] == team or self.board[8][1][0][0] == team):
                                 q = True
-                            elif cell == (8, 8) and (self.board[8][7] == team or self.board[7][8] == team):
-                                #print(4)
+                            elif cell == (8, 8) and (self.board[8][7][0][0] == team or self.board[7][8][0][0] == team):
                                 q = True
-                            elif cell[0] == 0 and (self.board[0][cell[1]-1] == team or self.board[0][cell[1]+1] == team or self.board[1][cell[1]] == team):
-                                #print(5)
+                            elif cell[0] == 0 and (self.board[0][cell[1]-1][0][0] == team or self.board[0][cell[1]+1][0][0] == team or self.board[1][cell[1]][0][0] == team):
                                 q = True
-                            elif cell[0] == 8 and (self.board[8][cell[1]-1] == team or self.board[8][cell[1]+1] == team or self.board[7][cell[1]] == team):
-                                #print(6)
+                            elif cell[0] == 8 and (self.board[8][cell[1]-1][0][0] == team or self.board[8][cell[1]+1][0][0] == team or self.board[7][cell[1]][0][0] == team):
                                 q = True
-                            elif cell[1] == 0 and (self.board[cell[0]+1][0] == team or self.board[cell[0]-1][0] == team or self.board[cell[0]][1] == team):
-                                #print(7)
+                            elif cell[1] == 0 and (self.board[cell[0]+1][0][0][0] == team or self.board[cell[0]-1][0][0][0] == team or self.board[cell[0]][1][0][0] == team):
                                 q = True
-                            elif cell[1] == 8 and (self.board[cell[0]+1][8] == team or self.board[cell[0]-1][8] == team or self.board[cell[0]][7] == team):
-                                #print(8)
+                            elif cell[1] == 8 and (self.board[cell[0]+1][8][0][0] == team or self.board[cell[0]-1][8][0][0] == team or self.board[cell[0]][7][0][0] == team):
                                 q = True
                             elif cell[0] != 0 and cell[0] != 8 and cell[1] != 0 and cell[1] != 8:
-                                if self.board[cell[0]+1][cell[1]+1] == team or self.board[cell[0]+1][cell[1]] == team or self.board[cell[0]][cell[1]+1] == team or self.board[cell[0]][cell[1]] == team:
-                                    #print(9)
+                                if self.board[cell[0]+1][cell[1]][0][0] == team or self.board[cell[0]][cell[1]+1][0][0] == team or self.board[cell[0]-1][cell[1]][0][0] == team or self.board[cell[0]][cell[1]-1][0][0] == team:
                                     q = True
                                 else:
                                     print('Данная клетка не граничит с уже имеющимися у вас клетками и её нельзя захватить.')
                             else:
                                 print('Данная клетка не граничит с уже имеющимися у вас клетками и её нельзя захватить.')
-                            if q:
+
+                            nq = False
+                            if q and (self.board[cell[0]][cell[1]][0][0] == 0 or self.board[cell[0]][cell[1]][0][0] == team) and len(self.board[cell[0]][cell[1]]) == 1:
                                 self.count[team-1] += self.price[cell[0]][cell[1]]
                                 self.scam[team-1][task-1] = 1
-                                self.board[cell[0]][cell[1]] = team
+                                x = self.board[cell[0]][cell[1]][0][1]
+                                an = [[team, x + 1]]
+                                self.board[cell[0]][cell[1]] = an
+                                nq = True
+
+                            elif q:
+                                self.count[team - 1] += self.price[cell[0]][cell[1]]
+                                self.scam[team - 1][task - 1] = 1
+                                l = len(self.board[cell[0]][cell[1]])
+                                sear = False
+                                nq = True
+                                for i in range(l):
+                                    if self.board[cell[0]][cell[1]][i][0] == team:
+                                        sear = True
+                                        self.board[cell[0]][cell[1]][i][1] += 1
+                                if not sear:
+                                    self.board[cell[0]][cell[1]].append([team, 1])
+
+                            if nq:
+                                lll = len(self.board[cell[0]][cell[1]])
+                                if lll > 1:
+                                    qn = True
+                                    while qn:
+                                        qn = False
+                                        for i in range(lll - 1):
+                                            arr1 = self.board[cell[0]][cell[1]][i]
+                                            n1 = arr1[1]
+                                            arr2 = self.board[cell[0]][cell[1]][i+1]
+                                            n2 = arr2[1]
+                                            print(n1, n2)
+                                            if n1 < n2:
+                                                self.board[cell[0]][cell[1]][i+1], self.board[cell[0]][cell[1]][i] = self.board[cell[0]][cell[1]][i], self.board[cell[0]][cell[1]][i+1]
+                                                qn = True
+
                         else:
                             print('Данная клетка является базой команды и её нельзя захватить.')
                     else:
                         print('Данная клетка является базой команды и её нельзя захватить.')
                 else:
-                    print('Вы уже сдавали эту задачу!')
+                    print('Данная задача уже была сдана вами или другой командой!')
             else:
                 print('Клетка, на которую вы претендуете, стоит дороже награды за данную задачу и её нельзя захватить.')
         else:
