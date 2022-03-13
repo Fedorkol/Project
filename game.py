@@ -23,13 +23,19 @@ class Game:
 
 
     def question(self, team, task,  ans, *cell):
-        if self.answer[task-1][-1] == ans:
+        if int(self.answer[task-1][-1]) == int(ans):
             if int(self.answer[task-1][1]) >= self.price[cell[0]][cell[1]]:
                 if self.scam[team-1][task-1] == 0:
                     self.count[team-1] += self.price[cell[0]][cell[1]]
                     self.scam[team-1][task-1] = 1
-
+                else:
+                    print('Вы уже сдавади эту задачу!')
+            else:
+                print('Клетка, на которую вы претендуете, стоит дороже награды за данную задачу.')
 
 if __name__ == "__main__":
     t = Game("ans.txt")
     t.print_board()
+    while True:
+        print('Введите номер команды, номер задачи, ответ и координаты клетки, на которую вы претендуете.')
+        t.question(*list(map(int, input.split())))
