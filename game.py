@@ -28,6 +28,7 @@ class Game:
                 if self.scam[team-1][task-1] == 0:
                     self.count[team-1] += self.price[cell[0]][cell[1]]
                     self.scam[team-1][task-1] = 1
+                    self.board[cell[0]-1][cell[1]-1] = team
                 else:
                     print('Вы уже сдавади эту задачу!')
             else:
