@@ -6,7 +6,7 @@ class Game:
                 self.answer.append(list(line.split()))
         self.width = 9
         self.height = 9
-        self.board = [["-"] * self.width for _ in range(self.height)]
+        self.board = [[0] * self.width for _ in range(self.height)]
         self.board[0][2] = 1
         self.board[0][6] = 2
         self.board[2][0] = 8
