@@ -21,7 +21,6 @@ class Table(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.initUI()
         self.game = game.Game("ans.txt")
         self.game.board[0][2] = 'A'
         self.game.board[0][6] = 'B'
@@ -31,6 +30,7 @@ class Table(QWidget):
         self.game.board[8][6] = 'E'
         self.game.board[2][8] = 'C'
         self.game.board[6][8] = 'D'
+        self.initUI()
 
 
     def initUI(self):
@@ -38,9 +38,9 @@ class Table(QWidget):
         self.setGeometry(100, 100, 9 * (size+1)+1, 9 * (size+1)+1)
         self.setWindowTitle('Захватчики')
         self.cell=[]
-        for i in range(9):
+        for j in range(9):
             x = []
-            for j in range(9):
+            for i in range(9):
                 if self.game.board[i][j] != 0:
                     s = self.game.board[i][j]
                 else:
