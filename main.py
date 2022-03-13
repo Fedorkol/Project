@@ -5,16 +5,16 @@ from PyQt5 import QtGui, QtCore
 import game
 
 
-TEAMS = {"A": 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8}
+TEAMS = list('ABCDEFGH')
 COLOR = {
-    'A': 'rgb(85, 255, 0)',
-    'B': 'rgb(170, 255, 127)',
-    'C': 'rgb(0, 255, 0)',
-    'D': 'rgb(255, 0, 0)',
-    'E': 'rgb(255, 255, 0)',
-    'F': 'rgb(0, 0, 255)',
-    'G': 'rgb(50, 50, 50)',
-    'H': 'rgb(150, 50, 50)'
+    'A': 'rgb(220,20,60)',
+    'B': 'rgb(255,140,0)',
+    'C': 'rgb(255,215,0)',
+    'D': 'rgb(0,250,154)',
+    'E': 'rgb(135,206,250)',
+    'F': 'rgb(70,130,180)',
+    'G': 'rgb(128,0,128)',
+    'H': 'rgb(255,105,180)'
 }
 
 
@@ -25,14 +25,6 @@ class Table(QWidget):
         super().__init__()
 
         self.game = game.Game("ans.txt")
-        self.game.board[0][2] = 'A'
-        self.game.board[0][6] = 'B'
-        self.game.board[2][0] = 'H'
-        self.game.board[6][0] = 'G'
-        self.game.board[8][2] = 'F'
-        self.game.board[8][6] = 'E'
-        self.game.board[2][8] = 'C'
-        self.game.board[6][8] = 'D'
         self.initUI()
 
     def initUI(self):
@@ -63,11 +55,12 @@ class Table(QWidget):
 
             for j in range(9):
                 if self.game.board[i][j] != 0:
-                    s = self.game.board[i][j]
+                    s = TEAMS[self.game.board[i][j] - 1]
                     style = f'background-color: {COLOR[s]};border-color:rgb(0,0,0); border-width:1px; border-style:solid;'
                 else:
-                    s = ''
-                    style = f'background-color: rgb(255, 255, 255);border-color:rgb(0,0,0); border-width:1px; border-style:solid;'
+                    s = ' ' * 8 + str(self.game.price[i][j])
+                    lev = 255 - self.game.price[i][j] * 10
+                    style = f'background-color: rgb({lev}, {lev}, {lev});border-color:rgb(0,0,0); border-width:1px; border-style:solid;'
                 a = QLabel(s, self)
                 a.setAlignment(QtCore.Qt.AlignTop)
                 a.setFont(QtGui.QFont('SansSerif', 12))
@@ -97,9 +90,13 @@ class Table(QWidget):
         if self.game.board[cell[0]][cell[1]] != 0:
             s = self.game.board[cell[0]][cell[1]]
             for i in range(len(s)):
-                pass
-            #self.cell[cell[0]][cell[1]].setText(s)
-            #self.cell[cell[0]][cell[1]].setStyleSheet(f'background-color: {COLOR["A"]};border-color:rgb(0,0,0); border-width:1px; border-style:solid;')
+                if type(s) == list:
+                    _s = []
+                    for el in s:
+                        _s.append(TEAMS[int(el[0] - 1)] +' '+ str(el[1]))
+                    _s[0] = _s[0] + ' ' * 4 + str(self.game.price[cell[0]][cell[1]])
+            self.cell[cell[0]][cell[1]].setText('\n'.join(_s))
+            self.cell[cell[0]][cell[1]].setStyleSheet(f'background-color: {COLOR[TEAMS[s[0][0] - 1]]};border-color:rgb(0,0,0); border-width:1px; border-style:solid;')
 
 
 
@@ -112,6 +109,10 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     application = Table()
     application.show()
-
-    application.on_change(3, 4)
+    application.game.board[0][1]=[(1, 1)]
+    application.on_change(0,1)
+    application.game.board[3][2] = [(4, 1), (8,1), (7,1)]
+    application.on_change(3, 2)
+    application.game.board[4][4] = [(1, 2), (6,2)]
+    application.on_change(4, 4)
     sys.exit(app.exec())
