@@ -31,7 +31,6 @@ class Game:
 
 
     def question(self, team, task,  ans, *cell):
-        print(cell)
         if int(self.answer[task-1][-1]) == int(ans):
             if int(self.answer[task-1][1]) >= self.price[cell[0]][cell[1]]:
                 if self.scam[team-1][task-1] == 0:
