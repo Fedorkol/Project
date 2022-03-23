@@ -18,7 +18,6 @@ COLOR = {
 }
 
 
-
 class Table(QWidget):
 
     def __init__(self):
@@ -98,15 +97,6 @@ class Table(QWidget):
             s = self.game.board[cell[0]][cell[1]]
             for i in range(len(s)):
                 pass
-            #self.cell[cell[0]][cell[1]].setText(s)
-            #self.cell[cell[0]][cell[1]].setStyleSheet(f'background-color: {COLOR["A"]};border-color:rgb(0,0,0); border-width:1px; border-style:solid;')
-
-
-
-
-
-
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
